@@ -13,5 +13,10 @@
 
 Auth::routes();
 
-Route::get('/', 'PhotosController@index')->name('photos');
-Route::post('/photos', 'PhotosController@add')->name('addPhoto');
+// Route::get('/', 'PhotosController@index')->name('photos');
+
+Route::get('/', 'CategoriesController@index')->name('home');
+Route::get('/categories/{id}', 'CategoriesController@show')->name('category');
+
+Route::post('/categories', 'CategoriesController@create')->name('createCategory');
+Route::post('/photos', 'PhotosController@create')->name('createPhoto');

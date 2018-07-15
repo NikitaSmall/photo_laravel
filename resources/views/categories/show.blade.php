@@ -1,16 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if($errors->any())
+  <div class="alert alert-danger" role="alert">
+    {{ $errors->first() }}
+  </div>
+@endif
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Photos</div>
+                <div class="card-header">Photos in {{ $category->title }}:</div>
 
                 <div class="card-body">
                   <div id="carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                      @foreach ($photos as $i => $photo)
+                      @foreach ($category->photos as $i => $photo)
                           @if ($i == 0)
                             <div class="carousel-item active">
                           @else
@@ -18,7 +25,7 @@
                           @endif
                           <img class="d-block w-100" src="{{ $photo->path }}" alt="">
                           <div class="carousel-caption d-none d-md-block">
-                            <h5>header</h5>
+                            <h5>Author: {{ $photo->user->name }}</h5>
                             <p>text</p>
                           </div>
                         </div>
@@ -54,6 +61,7 @@
                         <label>
                           Choose your photo:
                         </label>
+                        <input type="hidden" name="category_id" value="{{ $category->id }}">
                         <input type="file" name="photo" required>
                       </div>
                       <input type="submit" value="add photo">
