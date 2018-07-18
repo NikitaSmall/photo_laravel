@@ -2,12 +2,6 @@
 
 @section('content')
 
-@if($errors->any())
-  <div class="alert alert-danger" role="alert">
-    {{ $errors->first() }}
-  </div>
-@endif
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -44,6 +38,13 @@
                           Category name:
                         </label>
                         <input type="text" name="title" class="form-control">
+                      </div>
+
+                      <div class="form-group">
+                        <label>
+                          Is private:
+                        </label>
+                        <input type="checkbox" name="is_private" value="1" class="form-control">
                       </div>
                       <input type="submit" value="Add new Category" class="btn btn-default">
                     </form>

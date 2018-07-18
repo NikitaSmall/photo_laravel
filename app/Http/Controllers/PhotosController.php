@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
+use Cloudder;
+
 use Illuminate\Http\Request;
 use App\Photo;
 
@@ -27,18 +29,21 @@ class PhotosController extends Controller
     public function create(Request $request)
     {
       $validator = $request->validate([
-        'photo' => 'file|image|required|size:2000'
+        'photo' => 'file|image|required'
       ]);
 
-      if ($validator->fails()) {
+      if (!is_array($validator) && $validator->fails()) {
         return redirect(route('category', $request->category_id))->withErrors($validator);
       }
 
       $file = $request->file('photo');
       $path = self::SITE_PUBLIC_PREFIX . $file->store(self::PHOTO_STORAGE);
 
+      $res = Cloudder::upload($file->store(self::PHOTO_STORAGE), null, [], []);
+
       Photo::create([
-        'path' => $path,
+        'path' => $res->getResult()['url'],
+        // 'public_id'
         'category_id' => $request->category_id,
         'user_id' => Auth::user()->id
       ]);
