@@ -37,17 +37,22 @@ class PhotosController extends Controller
       }
 
       $file = $request->file('photo');
-      $path = self::SITE_PUBLIC_PREFIX . $file->store(self::PHOTO_STORAGE);
 
-      $res = Cloudder::upload($file->store(self::PHOTO_STORAGE), null, [], []);
+      $res = Cloudder::upload($file->getPathName(), null, [], []);
 
       Photo::create([
         'path' => $res->getResult()['url'],
-        // 'public_id'
+        'public_id' => $res->getResult()['public_id'],
         'category_id' => $request->category_id,
         'user_id' => Auth::user()->id
       ]);
 
+      return redirect(route('category', $request->category_id));
+    }
+
+    public function delete(Request $request)
+    {
+      Photo::deleteWithCloudder($request->id);
       return redirect(route('category', $request->category_id));
     }
 }

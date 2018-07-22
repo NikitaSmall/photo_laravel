@@ -20,7 +20,14 @@
                           <img class="d-block w-100" src="{{ $photo->path }}" alt="">
                           <div class="carousel-caption d-none d-md-block">
                             <h5>Author: {{ $photo->user->name }}</h5>
-                            <p>text</p>
+                            <p>
+                              <form method="POST" action="{{ route('deletePhoto', $photo->id) }}">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <input type="hidden" name="category_id" value="{{ $category->id }}">
+                                <input type="submit" value="Delete!" class="btn btn-danger">
+                              </form>
+                            </p>
                           </div>
                         </div>
                       @endforeach

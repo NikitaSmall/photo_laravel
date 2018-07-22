@@ -20,3 +20,5 @@ Route::get('/categories/{id}', 'CategoriesController@show')->name('category');
 
 Route::post('/categories', 'CategoriesController@create')->name('createCategory');
 Route::post('/photos', 'PhotosController@create')->name('createPhoto');
+
+Route::delete('/photos/{id}', 'PhotosController@delete')->name('deletePhoto');

@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Categories:</div>
+                <div class="card-header">The weather is hot: {{ $weather->temp }} f.. Your categories:</div>
 
                 <div class="card-body">
                   <ul class="list-group">
