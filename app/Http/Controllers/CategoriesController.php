@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
+use \App\Api\Weather;
 use \App\Category;
 
 class CategoriesController extends Controller
@@ -18,12 +19,13 @@ class CategoriesController extends Controller
 
     public function index()
     {
-      $weather = $this->getWeather('Odessa,ua', 'imperial', 'ru');
+      $weather = Weather::current()->city('buenos aires')->units('imperial')->get();
+
       $categories = Category::getPublic(Auth::id());
 
       return view('categories.index', [
         'categories' => $categories,
-        'weather' => $weather->main
+        'weather' => $weather
       ]);
     }
 
@@ -53,11 +55,5 @@ class CategoriesController extends Controller
       ]);
 
       return redirect(route('home'));
-    }
-
-    private function getWeather($city, $units = 'metric', $lang = 'en')
-    {
-      $res = file_get_contents('https://api.openweathermap.org/data/2.5/weather?q=' . $city . '&units=' . $units . '&lang=' . $lang . '&appid=' . env('OPENWEATHER_API_KEY'));
-      return json_decode($res);
     }
 }
